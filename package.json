@@ -1,0 +1,75 @@
+{
+  "name": "hyphal-network-blockchain",
+  "description": "Hyphal Network Blockchain Repository",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Daniel de Witte"
+  },
+  "devDependencies": {
+    "@ethersproject/abi": "^5.5.0",
+    "@ethersproject/abstract-signer": "^5.5.0",
+    "@ethersproject/bignumber": "^5.5.0",
+    "@ethersproject/bytes": "^5.5.0",
+    "@ethersproject/providers": "^5.5.1",
+    "@nomiclabs/hardhat-ethers": "^2.0.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@typechain/ethers-v5": "^8.0.5",
+    "@typechain/hardhat": "^3.0.0",
+    "@types/chai": "^4.3.0",
+    "@types/fs-extra": "^9.0.13",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.11.12",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "chai": "^4.3.4",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.2",
+    "fs-extra": "^10.0.0",
+    "hardhat": "^2.7.1",
+    "hardhat-gas-reporter": "^1.0.6",
+    "lint-staged": "^12.1.2",
+    "lodash": "^4.17.21",
+    "mocha": "^9.1.3",
+    "prettier": "^2.5.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "shelljs": "^0.8.4",
+    "solhint": "^3.3.6",
+    "solhint-plugin-prettier": "^0.0.5",
+    "solidity-coverage": "^0.7.17",
+    "ts-generator": "^0.1.1",
+    "ts-node": "^10.4.0",
+    "typechain": "^6.0.5",
+    "typescript": "^4.5.3"
+  },
+  "files": [
+    "/contracts"
+  ],
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "hardhat",
+    "smart-contracts",
+    "solidity"
+  ],
+  "scripts": {
+    "clean": "rm -rf ./artifacts ./cache ./coverage ./typings ./coverage.json ./node_modules",
+    "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
+    "coverage": "cross-env FORK=https://eth.getblock.io/mainnet/?api_key=e0079bc5-616a-465a-9278-ce414aef95ea hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"./test/**/*.ts\"",
+    "deploy": "hardhat sampletoken:deploy",
+    "lint": "yarn lint:sol && yarn lint:ts && yarn prettier:check",
+    "lint:sol": "solhint --config ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
+    "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore --ext .js,.ts .",
+    "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,md,sol,ts}\"",
+    "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts}\"",
+    "test": "cross-env FORK=https://eth.getblock.io/mainnet/?api_key=e0079bc5-616a-465a-9278-ce414aef95ea hardhat test",
+    "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.0"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "OakTreeTemperatureInterpretation": [
+    {
+      "measuredElementName": "Temperature",
+      "measuredElementAmountMin": -100,
+      "measuredElementAmountMax": -10,
+      "measuredElementLabel": "Unhappy"
+    },
+    {
+      "measuredElementName": "Temperature",
+      "measuredElementAmountMin": 5,
+      "measuredElementAmountMax": 25,
+      "measuredElementLabel": "Uncomfortable"
+    },
+    {
+      "measuredElementName": "Temperature",
+      "measuredElementAmountMin": 5,
+      "measuredElementAmountMax": 25,
+      "measuredElementLabel": "Happy"
+    },
+    {
+      "measuredElementName": "Temperature",
+      "measuredElementAmountMin": 25,
+      "measuredElementAmountMax": 35,
+      "measuredElementLabel": "Uncomfortable"
+    },
+    {
+      "measuredElementName": "Temperature",
+      "measuredElementAmountMin": 35,
+      "measuredElementAmountMax": 100,
+      "measuredElementLabel": "Uncomfortable"
+    }
+  ]
+}
