@@ -91,7 +91,7 @@ contract SampleContract is Ownable {
         emit LandNftEvent(landNftKey, geoTagLandNFT[_geoTag]);
     }
 
-    // create a new sampleW
+    // create a new sample
     function addSample(
         string calldata _geoTag, 
         uint256 _timeStamp, 
@@ -179,6 +179,4 @@ contract SampleContract is Ownable {
     function _verifySignature(uint256 timestamp, bytes memory signature, address signer) private pure returns (bool) {
         return bytes32(timestamp).toEthSignedMessageHash().recover(signature) == signer;
     }
-
-
 }

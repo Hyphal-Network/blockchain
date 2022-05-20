@@ -1,14 +1,10 @@
 import "@nomiclabs/hardhat-waffle";
 import { task } from "hardhat/config";
-import { Sample__factory } from "../../typings/factories/Sample__factory";
-import { Sample } from "../../typings/Sample";
 import { sampleContractAddresses } from "../constants/sampleConstants";
 
 task("soil:owner", "Return wallet owning the contract").setAction(async (_, hre) => {
-  const Sample = <Sample__factory>await hre.ethers.getContractFactory("Sample");
-
-  const sample = <Sample>(
-    Sample.attach(sampleContractAddresses[hre.network.name as keyof typeof sampleContractAddresses])
+  const sample = (await hre.ethers.getContractFactory("SampleContract")).attach(
+    sampleContractAddresses[hre.network.name as keyof typeof sampleContractAddresses],
   );
 
   const res = await sample.owner();
@@ -29,11 +25,8 @@ task("soil:owner", "Return wallet owning the contract").setAction(async (_, hre)
 task("sample:transferOwner", "Transfers the ownership of the smart contract to a new address")
   .addParam("o", "Wallet address of the new Owner")
   .setAction(async ({ o }, hre) => {
-    const Sample = <Sample__factory>await hre.ethers.getContractFactory("Sample");
-
-    const sample = <Sample>(
-      Sample.attach(sampleContractAddresses[hre.network.name as keyof typeof sampleContractAddresses])
-    );
+    const Sample = await hre.ethers.getContractFactory("SampleContract");
+    const sample = Sample.attach(sampleContractAddresses[hre.network.name as keyof typeof sampleContractAddresses]);
 
     const previousOwner = await sample.owner();
 
