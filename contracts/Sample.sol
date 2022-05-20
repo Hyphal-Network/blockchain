@@ -66,6 +66,22 @@ contract SampleContract is Ownable {
         sampleDecimals = _sampleDecimals;
     }
 
+    function getSamplesAtGeotag(string calldata _geoTag) public view returns (Sample[] memory) {
+        Sample[] memory samplesRet = new Sample[](geoTagSamples[_geoTag].length);
+        for (uint i = 0; i < geoTagSamples[_geoTag].length; i++) {
+            samplesRet[i] = geoTagSamples[_geoTag][i];
+        }
+        return samplesRet;
+    }
+
+    function getAnalisysOfSample(bytes32 _sampleId) public view returns (Analysis[] memory) {
+        Analysis[] memory analysisRet = new Analysis[](analysis[_sampleId].length);
+        for (uint i = 0; i < analysis[_sampleId].length; i++) {
+            analysisRet[i] = analysis[_sampleId][i];
+        }
+        return analysisRet;
+    }
+
     // link a geotag to a land nft
     function addGeoTagToLandNft(string calldata _geoTag, address _landNftAddress, uint256 _landNftId) public {
         bytes32 landNftKey = keccak256(abi.encodePacked(_landNftAddress, _landNftId));
@@ -75,10 +91,10 @@ contract SampleContract is Ownable {
         emit LandNftEvent(landNftKey, geoTagLandNFT[_geoTag]);
     }
 
-    // create a new sample
+    // create a new sampleW
     function addSample(
         string calldata _geoTag, 
-        uint _timeStamp, 
+        uint256 _timeStamp, 
         address _sampleTaker, 
         bytes calldata _sampleTakerSignature
     ) public {
@@ -92,8 +108,8 @@ contract SampleContract is Ownable {
     // add an analysis to an existing sample
     function addAnalysisToSample(
         uint256 _timeStamp, 
-        uint256 _geoTag, 
-        address _sampleAnalyst, 
+        string calldata _geoTag, 
+        address _sampleAnalyst,
         bytes calldata _sampleAnalystSignature,
         string[] calldata _measuredElementName,
         uint256[] calldata _measuredElementAmount
@@ -163,4 +179,6 @@ contract SampleContract is Ownable {
     function _verifySignature(uint256 timestamp, bytes memory signature, address signer) private pure returns (bool) {
         return bytes32(timestamp).toEthSignedMessageHash().recover(signature) == signer;
     }
+
+
 }
