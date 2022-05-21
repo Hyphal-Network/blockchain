@@ -94,19 +94,41 @@ contract SampleContract is Ownable {
     // create a new sample
     function addSample(
         string calldata _geoTag, 
-        uint256 _timeStamp, 
-        address _sampleTaker, 
+        uint256 _timeStamp
+    ) public {
+        // require (_verifySignature(_timeStamp, _sampleTakerSignature, _sampleTaker), 
+        //             "Invalid signature from sample taker");
+        bytes32 _id = keccak256(abi.encodePacked(_timeStamp, _geoTag));
+
+        _createSample(_id, _geoTag, _timeStamp, msg.sender);
+    }
+
+    // create a new sample
+    function addSampleDelegated(
+        string calldata _geoTag, 
+        uint256 _timeStamp,
+        address _sampleTaker,
         bytes calldata _sampleTakerSignature
     ) public {
         require (_verifySignature(_timeStamp, _sampleTakerSignature, _sampleTaker), 
                     "Invalid signature from sample taker");
         bytes32 _id = keccak256(abi.encodePacked(_timeStamp, _geoTag));
-
-        _createSample(_id, _geoTag, _timeStamp, _sampleTaker);
+        _createSample(_id, _geoTag, _timeStamp, msg.sender);
     }
 
     // add an analysis to an existing sample
     function addAnalysisToSample(
+        uint256 _timeStamp, 
+        string calldata _geoTag, 
+        string[] calldata _measuredElementName,
+        uint256[] calldata _measuredElementAmount
+    ) public {
+        bytes32 _id = keccak256(abi.encodePacked(_timeStamp, _geoTag));
+        _createAnalysis(_id, msg.sender, _measuredElementName, _measuredElementAmount);
+    }
+
+    // add an analysis to an existing sample
+    function addAnalysisToSampleDelegated(
         uint256 _timeStamp, 
         string calldata _geoTag, 
         address _sampleAnalyst,
@@ -117,12 +139,23 @@ contract SampleContract is Ownable {
         bytes32 _id = keccak256(abi.encodePacked(_timeStamp, _geoTag));
         require (_verifySignature(samples[_id].timeStamp, _sampleAnalystSignature, _sampleAnalyst), 
                     "Invalid signature from sample analyst");
-
         _createAnalysis(_id, _sampleAnalyst, _measuredElementName, _measuredElementAmount);
     }
 
     // create a new sample and add a set of analysis to it
     function addSampleWithAnalysis(
+        string calldata _geoTag, 
+        uint256 _timeStamp,      
+        string[] calldata _measuredElementName,
+        uint256[] calldata _measuredElementAmount
+    ) public {
+        bytes32 _id = keccak256(abi.encodePacked(_timeStamp, _geoTag));
+        _createSample(_id, _geoTag, _timeStamp, msg.sender);
+        _createAnalysis(_id, msg.sender, _measuredElementName, _measuredElementAmount);
+    }
+
+    // create a new sample and add a set of analysis to it
+    function addSampleWithAnalysisDelegated(
         string calldata _geoTag, 
         uint256 _timeStamp, 
         address _sampleTaker, 
